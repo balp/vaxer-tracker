@@ -17,15 +17,16 @@ type Greeting struct {
 }
 
 func init() {
-        http.HandleFunc("/", hello)
-//        http.HandleFunc("/sign", sign)
+    http.Handle("/static/", http.FileServer(http.Dir(".")))
+    http.HandleFunc("/", vaxerIndex)
+    http.HandleFunc("/plant", vaxerPlant)
 }
 
 var (
   templates = template.Must(template.ParseFiles(
      "header.html",
      "footer.html",
-     "hello.html",
+     "vaxer.html",
      "error.html",
   ))
 )
@@ -35,12 +36,15 @@ type Variables struct{
 	Heading string
 }
 
-func hello(w http.ResponseWriter, r *http.Request) {
+func vaxerIndex(w http.ResponseWriter, r *http.Request) {
     data := Variables{"Balp", "One"}
-    if err := templates.ExecuteTemplate(w, "hello.html", data); err != nil {
+    if err := templates.ExecuteTemplate(w, "vaxer.html", data); err != nil {
 	writeError(w, r, err)
     }
+}
 
+func vaxerPlant(w http.ResponseWriter, r *http.Request) {
+    http.Redirect(w, r, "/", http.StatusFound)
 }
 
 func writeError(w http.ResponseWriter, r *http.Request, err error) {
@@ -52,7 +56,6 @@ func writeError(w http.ResponseWriter, r *http.Request, err error) {
 	}
 }
 
-// guestbookKey returns the key used for all guestbook entries.
 func guestbookKey(c appengine.Context) *datastore.Key {
     // The string "default_guestbook" here could be varied to have multiple guestbooks.
     return datastore.NewKey(c, "Guestbook", "default_guestbook", 0, nil)
