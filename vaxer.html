@@ -8,27 +8,24 @@
             <th>Planted</th>
             <th>Where</th>
             <th>Next</th>
-            <th>Ready</th>
+            <th>When</th>
         </tr>
     </thead>
     <tbody>
-        <tr><td>Plocksallat     </td><td>2017-01-06</td><td>Unit-1-1</td><td>Harvest</td><td>2017-02-10 (5 days)</td></tr>
-        <tr><td>Plocksallat     </td><td>2017-01-06</td><td>Unit-2-1</td><td>Harvest</td><td>2017-02-10 (5 days)</td></tr>
-        <tr><td>Citron basilika </td><td>2017-01-06</td><td>Unit-1-2</td><td>Harvest</td><td>2017-02-10 (5 days)</td></tr>
-        <tr><td>Röd Romansallat </td><td>2017-01-06</td><td>Unit-2-2</td><td>Harvest</td><td>2017-02-10 (5 days)</td></tr>
-        <tr><td>Grön Romansallat</td><td>2017-01-06</td><td>Unit-2-3</td><td>Harvest</td><td>2017-02-10 (5 days)</td></tr>
-        <tr><td>Plocksallat     </td><td>2017-02-02</td><td>Unit-2-4</td><td>Harvest</td><td>2017-03-01 (5 days)</td></tr>
-        <tr><td>Lila basilika   </td><td>2017-02-02</td><td>Unit-1-3</td><td>Harvest</td><td>2017-02-10 (5 days)</td></tr>
-        <tr><td>Lila basilika   </td><td>2017-02-02</td><td>Unit-1-4</td><td>Harvest</td><td>2017-02-10 (5 days)</td></tr>
-        <tr><td>Koriander       </td><td>2017-02-02</td><td>Nursery-5-1</td><td>Clutivate</td><td>2017-02-10 (5 days)</td></tr>
-        <tr><td>Koriander       </td><td>2017-02-02</td><td>Nursery-5-2</td><td>Clutivate</td><td>2017-02-10 (5 days)</td></tr>
-        <tr><td>Koriander       </td><td>2017-02-02</td><td>Nursery-5-3</td><td>Clutivate</td><td>2017-02-10 (5 days)</td></tr>
-        <tr><td>Koriander       </td><td>2017-02-02</td><td>Nursery-5-4</td><td>Clutivate</td><td>2017-02-10 (5 days)</td></tr>
+        {{range .}}
+            <tr>
+                <td>{{.Name}}</td>
+                <td>{{.Planted}}</td>
+                <td>{{.Where}}-{{.Row}}-{{.Colum}}</td>
+                <td>{{.Next}}</td>
+                <td>{{.When}}</td>
+            </tr>
+        {{end}}
     </tbody>
 </table>
 </div>
 <div class="container">
-<form action="/plant" method="post">
+<form action="/plant" method="post" class="form-inline">
     <div class="form-group">
         <label for="plantType">Plant Type</label>
         <input list="plantTypes" class="form-control" id="plantType">
@@ -39,64 +36,39 @@
             <option value="Lemon basil">
             <option value="basil">
             <option value="coriander">
-        <datalist>
+        </datalist>
     </div>
     <div class="form-group">
         <label for="location">Location</label>
-        <input list="locations" class="form-control" id="location">
-        <datalist id="locations">
-            <option value="Cup">
-            <option value="Nursery-1-1">
-            <option value="Nursery-1-2">
-            <option value="Nursery-1-3">
-            <option value="Nursery-1-4">
-            <option value="Nursery-1-5">
-            <option value="Nursery-2-1">
-            <option value="Nursery-2-2">
-            <option value="Nursery-2-3">
-            <option value="Nursery-2-4">
-            <option value="Nursery-2-5">
-            <option value="Nursery-3-1">
-            <option value="Nursery-3-2">
-            <option value="Nursery-3-3">
-            <option value="Nursery-3-4">
-            <option value="Nursery-3-5">
-            <option value="Nursery-3-1">
-            <option value="Nursery-3-2">
-            <option value="Nursery-3-3">
-            <option value="Nursery-3-4">
-            <option value="Nursery-3-5">
-            <option value="Nursery-5-1">
-            <option value="Nursery-5-2">
-            <option value="Nursery-5-3">
-            <option value="Nursery-5-4">
-            <option value="Nursery-5-5">
-            <option value="Nursery-6-1">
-            <option value="Nursery-6-2">
-            <option value="Nursery-6-3">
-            <option value="Nursery-6-4">
-            <option value="Nursery-6-5">
-            <option value="Nursery-7-1">
-            <option value="Nursery-7-2">
-            <option value="Nursery-7-3">
-            <option value="Nursery-7-4">
-            <option value="Nursery-7-5">
-            <option value="Nursery-8-1">
-            <option value="Nursery-8-2">
-            <option value="Nursery-8-3">
-            <option value="Nursery-8-4">
-            <option value="Nursery-8-5">
-            <option value="Nursery-9-1">
-            <option value="Nursery-9-2">
-            <option value="Nursery-9-3">
-            <option value="Nursery-9-4">
-            <option value="Nursery-9-5">
-            <option value="Nursery-10-1">
-            <option value="Nursery-10-2">
-            <option value="Nursery-10-3">
-            <option value="Nursery-10-4">
-            <option value="Nursery-10-5">
-        <datalist>
+        <select name="location" class="form-control" id="location">
+            <option value="cup">Cup</option>
+            <option value="nursery">Nursery</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="row">Row</label>
+        <select name="row" class="form-control" id="row">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="column">Row</label>
+        <select name="column" class="form-control" id="column">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
     </div>
     <button type="submit" class="btn btn-default">Plant</button>
 </form>
