@@ -8,14 +8,9 @@ import (
 
         "appengine"
         "appengine/datastore"
+        //"appengine/log"
         //"appengine/user"
 )
-
-type Greeting struct {
-        Author  string
-        Content string
-        Date    time.Time
-}
 
 func init() {
     http.Handle("/static/", http.FileServer(http.Dir(".")))
@@ -88,6 +83,8 @@ func vaxerPlant(w http.ResponseWriter, r *http.Request) {
         writeError(w, r, err)
         return
     }
+    //log.Infof(c, "Datastore put successful")
+    c.Debugf("Storing %v in database %v", plant, key)
     http.Redirect(w, r, "/", http.StatusFound)
 }
 

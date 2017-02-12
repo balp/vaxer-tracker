@@ -15,10 +15,10 @@
         {{range .}}
             <tr>
                 <td>{{.Name}}</td>
-                <td>{{.Planted}}</td>
-                <td>{{.Where}}-{{.Row}}-{{.Colum}}</td>
+                <td>{{.Planted.Format "2006-01-02"}}</td>
+                <td>{{.Where}} ({{.Row}}x{{.Colum}})</td>
                 <td>{{.Next}}</td>
-                <td>{{.When}}</td>
+                <td>{{.When.Format "2006-01-02"}}</td>
             </tr>
         {{end}}
     </tbody>
@@ -28,15 +28,14 @@
 <form action="/plant" method="post" class="form-inline">
     <div class="form-group">
         <label for="plantType">Plant Type</label>
-        <input list="plantTypes" class="form-control" id="plantType">
-        <datalist id="plantTypes">
-            <option value="Crispy lettuce">
-            <option value="red romaine lettuce">
-            <option value="green romaine lettuce">
-            <option value="Lemon basil">
-            <option value="basil">
-            <option value="coriander">
-        </datalist>
+        <select name="plantType" class="form-control" id="plantType">
+            <option value="Crispy lettuce">Crispy lettuce</option>
+            <option value="red romaine lettuce">Red romaine lettuce</option>
+            <option value="green romaine lettuce">group romaine lettuce</option>
+            <option value="Lemon basil">Lemon basil</option>
+            <option value="basil">Basil</option>
+            <option value="coriander">Coriander</option>
+        </select>
     </div>
     <div class="form-group">
         <label for="location">Location</label>
