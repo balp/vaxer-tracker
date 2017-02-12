@@ -27,11 +27,6 @@ var (
   ))
 )
 
-type Variables struct{
-	Title string
-	Heading string
-}
-
 type Plant struct {
     Name string
     Planted time.Time
@@ -42,15 +37,28 @@ type Plant struct {
     When time.Time
 }
 
+type PlantType struct {
+    Name string
+    Id string
+}
+
+type WebContext struct {
+    PlantTypes []PlantType
+    Plants []Plant
+}
+
 func vaxerIndex(w http.ResponseWriter, r *http.Request) {
     c := appengine.NewContext(r)
-    q := datastore.NewQuery("Plant").Ancestor(plantsKey(c)).Order("-Next").Limit(100)
-    plants := make([]Plant, 0, 100)
-    if _, err := q.GetAll(c, &plants); err != nil {
+    q := datastore.NewQuery("Plant").Ancestor(plantsKey(c)).Order("-When").Limit(100)
+    webContext := new(WebContext)
+    webContext.Plants = make([]Plant, 0, 100)
+    webContext.PlantTypes = []PlantType{{"Basil", "basil"},{"Coriander", "coriander"}}
+    if _, err := q.GetAll(c, &webContext.Plants); err != nil {
         writeError(w, r, err)
     }
 
-    if err := templates.ExecuteTemplate(w, "vaxer.html", plants); err != nil {
+
+    if err := templates.ExecuteTemplate(w, "vaxer.html", webContext); err != nil {
 	writeError(w, r, err)
     }
 }
